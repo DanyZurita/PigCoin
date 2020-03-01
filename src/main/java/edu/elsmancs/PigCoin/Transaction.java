@@ -5,7 +5,7 @@ import java.security.PublicKey;
 
 
 public class Transaction {
-    private String hash = null;
+    
     private String prev_hash = null;
     private PublicKey pKey_sender = null;
     private PublicKey pKey_recipient = null;
@@ -21,6 +21,11 @@ public class Transaction {
         this.pKey_recipient = recipientPK;
         this.pigcoins = pigcoins;
         this.message = message;
+    }
+    private String hash = null;
+
+    public String getHash() {
+        return hash;
     }
     
     @Override
