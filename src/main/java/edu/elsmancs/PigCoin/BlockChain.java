@@ -19,6 +19,8 @@ public class BlockChain {
 
     
     public void summarize(int position){
+        if (position <= BlockChain.size() && position >= 0) {
         System.out.print(BlockChain.get(position).toString());
+        }
     }
 }
