@@ -4,7 +4,7 @@ import java.security.PublicKey;
 
 
 public class Transaction {
-    
+    private String hash = null;
     private String prev_hash = null;
     private PublicKey pKey_sender = null;
     private PublicKey pKey_recipient = null;
@@ -21,10 +21,29 @@ public class Transaction {
         this.pigcoins = pigcoins;
         this.message = message;
     }
-    private String hash = null;
-
+    
     public String getHash() {
         return hash;
+    }
+       
+    public String getPrev_hash() {
+        return prev_hash;
+    }
+
+    public PublicKey getpKey_sender() {
+        return pKey_sender;
+    }
+
+    public PublicKey getpKey_recipient() {
+        return pKey_recipient;
+    }
+
+    public double getPigcoins() {
+        return pigcoins;
+    }
+
+    public String getMessage() {
+        return message;
     }
     
     @Override
