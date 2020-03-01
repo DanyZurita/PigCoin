@@ -23,4 +23,11 @@ public class WalletTest {
         wall.generateKeyPair();
         assertNotEquals(wall.getSKey().hashCode(), null);
     }
+    
+    @Test
+    public void walletKeys() {
+        Wallet wall = new Wallet();
+        wall.generateKeyPair();
+        assertNotEquals(wall.getSKey().hashCode(), wall.getAddress().hashCode());
+    }
 }
