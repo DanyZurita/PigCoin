@@ -18,8 +18,8 @@ public class Wallet {
     
     public void generateKeyPair() {
         KeyPair pair = GenSig.generateKeyPair();
-        this.sKey = pair.getPrivate();
-        this.address = pair.getPublic();
+        setSK(pair.getPrivate());
+        setAddress(pair.getPublic());
     }
     
     public void setSK(PrivateKey SK) {
