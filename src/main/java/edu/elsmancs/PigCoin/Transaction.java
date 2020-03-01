@@ -1,6 +1,5 @@
 package edu.elsmancs.PigCoin;
 
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
 
