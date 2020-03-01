@@ -11,8 +11,8 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private String inputTransaction;
-    private String outputTransaction;
+    private Transaction inputTransaction;
+    private Transaction outputTransaction;
     
     public Wallet() {}
     
