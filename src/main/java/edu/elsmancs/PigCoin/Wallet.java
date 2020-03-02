@@ -72,9 +72,9 @@ public class Wallet {
     }
     
     public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
-        collectCoins(coins);
-        signTransaction(message);
-        bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, meesage, signedTransaction);
+        double consumedCoins = collectCoins(coins);
+        byte[] signedTransaction = signTransaction(message);
+        bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
     
