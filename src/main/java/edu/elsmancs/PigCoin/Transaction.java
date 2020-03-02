@@ -46,6 +46,31 @@ public class Transaction {
         return message;
     }
     
+    
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public void setPrev_hash(String prev_hash) {
+        this.prev_hash = prev_hash;
+    }
+
+    public void setpKey_sender(PublicKey pKey_sender) {
+        this.pKey_sender = pKey_sender;
+    }
+
+    public void setpKey_recipient(PublicKey pKey_recipient) {
+        this.pKey_recipient = pKey_recipient;
+    }
+
+    public void setPigcoins(double pigcoins) {
+        this.pigcoins = pigcoins;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
     @Override
     public String toString() {
         return '\n' + "Hash = " + hash + '\n'
