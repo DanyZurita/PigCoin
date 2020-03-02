@@ -58,10 +58,12 @@ public class BlockChain {
     
     public void processTransaction(PublicKey address, PublicKey pKey_recipient, double consumedCoins, String message, byte[] signedTransaction) {
         isSignatureValid(address, message, signedTransaction);
-        isConsumedCoins(consumedCoins);
+        isConsumedCoinsValid(consumedCoins);
         createTransaction(address, pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
-    
+    public boolean isSignatureValid(PublicKey address, String message, byte[] signedTransaction) {
+        return GenSig.verify(address, message, signedTransaction);
+    }
     
 }
