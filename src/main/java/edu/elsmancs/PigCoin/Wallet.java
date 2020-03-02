@@ -77,6 +77,10 @@ public class Wallet {
         bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
+    public double collectCoins(double coins) {
+        
+    }
+    
     
     @Override
     public String toString() {
