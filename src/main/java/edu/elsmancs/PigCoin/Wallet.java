@@ -50,7 +50,7 @@ public class Wallet {
     
     public void loadInputTransactions(BlockChain bchain) {
         for (Transaction trans : bchain.getBlockChain()) {
-            if (trans.getpKey_recipient().equals(address)) {
+            if (trans.getpKey_recipient().equals(getAddress())) {
                 inputTransaction.add(trans);
             }
         }
@@ -58,7 +58,7 @@ public class Wallet {
 
     public void loadOutputTransactions(BlockChain bchain) {
         for (Transaction trans : bchain.getBlockChain()) {
-            if (trans.getpKey_sender().equals(address)) {
+            if (trans.getpKey_sender().equals(getAddress())) {
                 outputTransaction.add(trans);
             }
         }
@@ -66,7 +66,7 @@ public class Wallet {
     
     
     public void loadCoins(BlockChain bchain) {
-        double[] inputOutput = bchain.loadWallet(address);
+        double[] inputOutput = bchain.loadWallet(getAddress());
         total_input = inputOutput[0];
         total_output = inputOutput[1];
     }
