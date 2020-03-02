@@ -51,19 +51,15 @@ public class Wallet {
     }
     
     public void loadInputTransactions(BlockChain bchain) {
-        for (Transaction trans : bchain.getBlockChain()) {
-            if (trans.getpKey_recipient().equals(getAddress())) {
-                inputTransaction.add(trans);
-            }
-        }
+        bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_recipient().equals(getAddress()))).forEachOrdered((trans) -> {
+            inputTransaction.add(trans);
+        });
     }
 
     public void loadOutputTransactions(BlockChain bchain) {
-        for (Transaction trans : bchain.getBlockChain()) {
-            if (trans.getpKey_sender().equals(getAddress())) {
-                outputTransaction.add(trans);
-            }
-        }
+        bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_sender().equals(getAddress()))).forEachOrdered((trans) -> {
+            outputTransaction.add(trans);
+        });
     }
     
     public void loadCoins(BlockChain bchain) {
