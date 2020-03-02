@@ -64,12 +64,18 @@ public class Wallet {
         }
     }
     
-    
     public void loadCoins(BlockChain bchain) {
         double[] inputOutput = bchain.loadWallet(getAddress());
         total_input = inputOutput[0];
         total_output = inputOutput[1];
     }
+    
+    public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
+        collectCoins(coins);
+        signTransaction(message);
+        bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, meesage, signedTransaction);
+    }
+    
     
     @Override
     public String toString() {
