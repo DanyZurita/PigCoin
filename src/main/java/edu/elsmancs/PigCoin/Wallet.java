@@ -3,6 +3,8 @@ package edu.elsmancs.PigCoin;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Wallet {
@@ -11,9 +13,9 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private Transaction inputTransaction;
-    private Transaction outputTransaction;
-    
+    private final List<Transaction> inputTransaction = new ArrayList<>();
+    private final List<Transaction> outputTransaction = new ArrayList<>();
+
     public Wallet() {}
     
     public void generateKeyPair() {
@@ -37,6 +39,16 @@ public class Wallet {
     public PrivateKey getSKey() {
         return this.sKey;
     }
+    
+    public List<Transaction> getInputTransaction() {
+        return inputTransaction;
+    }
+
+    public List<Transaction> getOutputTransaction() {
+        return outputTransaction;
+    }
+    
+    
     
     @Override
     public String toString() {
