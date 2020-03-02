@@ -3,6 +3,7 @@ package edu.elsmancs.PigCoin;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.PublicKey;
+import java.util.Map;
 
 
 public class BlockChain {
@@ -56,7 +57,7 @@ public class BlockChain {
         return inputOutput;
     }
     
-    public void processTransactions(PublicKey address, PublicKey pKey_recipient, double consumedCoins, String message, byte[] signedTransaction) {
+    public void processTransactions(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
         isSignatureValid(address, message, signedTransaction);
         isConsumedCoinsValid(consumedCoins);
         createTransaction(address, pKey_recipient, consumedCoins, message, signedTransaction);
@@ -66,16 +67,15 @@ public class BlockChain {
         return GenSig.verify(address, message, signedTransaction);
     }
     
-    public void isConsumedCoinsValid(double consumedCoins) {
+    public void isConsumedCoinsValid(Map<String, Double> consumedCoins) {
         
     }
     
-    public void createTransaction(PublicKey address, PublicKey pKey_recipient, double consumedCoins, String message, byte[] signedTransaction) {
+    public void createTransaction(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
         Transaction trans = new Transaction();
         trans.setpKey_sender(address);
         trans.setpKey_recipient(pKey_recipient);
         trans.setMessage(message);
-        trans.setPigcoins(consumedCoins);
         BlockChain.add(trans);
     }
             
