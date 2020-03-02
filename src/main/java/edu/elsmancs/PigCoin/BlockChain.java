@@ -55,4 +55,13 @@ public class BlockChain {
         double[] inputOutput = {input, output};
         return inputOutput;
     }
+    
+    public void processTransaction(PublicKey address, PublicKey pKey_recipient, double consumedCoins, String message, byte[] signedTransaction) {
+        isSignatureValid(address, message, signedTransaction);
+        isConsumedCoins(consumedCoins);
+        createTransaction(address, pKey_recipient, consumedCoins, message, signedTransaction);
+    }
+    
+    
+    
 }
