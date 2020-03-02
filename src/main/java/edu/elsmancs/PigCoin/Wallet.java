@@ -14,6 +14,7 @@ public class Wallet {
     private double total_output = 0d;
     private double balance = 0d;
     private final List<Transaction> inputTransaction = new ArrayList<>();
+
     private final List<Transaction> outputTransaction = new ArrayList<>();
 
     public Wallet() {}
@@ -40,15 +41,36 @@ public class Wallet {
         return this.sKey;
     }
     
-    public List<Transaction> getInputTransaction() {
+    public List<Transaction> getInputTransactions() {
         return inputTransaction;
     }
 
-    public List<Transaction> getOutputTransaction() {
+    public List<Transaction> getOutputTransactions() {
         return outputTransaction;
     }
     
+    public void loadInputTransactions(BlockChain bchain) {
+        for (Transaction trans : bchain.getBlockChain()) {
+            if (trans.getpKey_recipient().equals(address)) {
+                inputTransaction.add(trans);
+            }
+        }
+    }
+
+    public void loadOutputTransactions(BlockChain bchain) {
+        for (Transaction trans : bchain.getBlockChain()) {
+            if (trans.getpKey_sender().equals(address)) {
+                outputTransaction.add(trans);
+            }
+        }
+    }
     
+    
+    public void loadCoins(BlockChain bchain) {
+        double[] inputOutput = bchain.loadWallet(address);
+        total_input += inputOutput[0];
+        total_output += inputOutput[1];
+    }
     
     @Override
     public String toString() {
