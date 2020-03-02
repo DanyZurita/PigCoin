@@ -4,7 +4,9 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Wallet {
@@ -72,16 +74,21 @@ public class Wallet {
     }
     
     public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
-        double consumedCoins = collectCoins(coins);
+        Map<String, Double> consumedCoins = collectCoins(coins);
         byte[] signedTransaction = signTransaction(message);
         bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
-    public double collectCoins(double coins) {
+    public Map<String, Double> collectCoins(double coins) {
+        Map<String, Double> consumedCoins = new HashMap<>();
         
+        return consumedCoins;
     }
     
-    
+    public byte[] signTransaction(String message) {
+        return GenSig.sign(getSKey(), message);
+    }     
+            
     @Override
     public String toString() {
         return '\n' + "Wallet = " + getAddress().hashCode() + '\n' 
