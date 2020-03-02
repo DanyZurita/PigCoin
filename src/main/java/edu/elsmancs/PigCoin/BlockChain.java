@@ -32,21 +32,13 @@ public class BlockChain {
     
     public double loadInputTransaction(PublicKey address) {
         double input = 0d;
-        for (Transaction trans : BlockChain) {
-            if (trans.getpKey_recipient().equals(address)) {
-                input += trans.getPigcoins();
-            }
-        }
+        input = BlockChain.stream().filter((trans) -> (trans.getpKey_recipient().equals(address))).map((trans) -> trans.getPigcoins()).reduce(input, (accumulator, _item) -> accumulator + _item);
         return input;
     }
 
     public double loadOutputTransaction(PublicKey address) {
         double output = 0d;
-        for (Transaction trans : BlockChain) {
-            if (trans.getpKey_sender().equals(address)) {
-                output += trans.getPigcoins();  
-            }   
-        }
+        output = BlockChain.stream().filter((trans) -> (trans.getpKey_sender().equals(address))).map((trans) -> trans.getPigcoins()).reduce(output, (accumulator, _item) -> accumulator + _item);
         return output;
     }
     
