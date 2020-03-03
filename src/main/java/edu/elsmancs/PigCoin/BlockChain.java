@@ -38,10 +38,11 @@ public class BlockChain {
         return inputTransactions;
     }
 
-    public double loadOutputTransaction(PublicKey address) {
-        double output = 0d;
-        output = BlockChain.stream().filter((trans) -> (trans.getpKey_sender().equals(address))).map((trans) -> trans.getPigcoins()).reduce(output, (accumulator, _item) -> accumulator + _item);
-        return output;
+    public List<Transaction> loadOutputTransaction(PublicKey address) {
+        List<Transaction> outputTransactions = getBlockChain().stream()
+                .filter((trans) -> (trans.getpKey_sender().equals(address)))
+                .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        return outputTransactions;
     }
     
     public double[] loadWallet(PublicKey address) {
