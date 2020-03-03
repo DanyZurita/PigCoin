@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.security.PublicKey;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class BlockChain {
@@ -30,10 +31,11 @@ public class BlockChain {
         }
     }
     
-    public double loadInputTransaction(PublicKey address) {
-        double input = 0d;
-        input = BlockChain.stream().filter((trans) -> (trans.getpKey_recipient().equals(address))).map((trans) -> trans.getPigcoins()).reduce(input, (accumulator, _item) -> accumulator + _item);
-        return input;
+    public List<Transaction> loadInputTransaction(PublicKey address) {
+        List<Transaction> inputTransactions = getBlockChain().stream()
+                .filter((trans) -> (trans.getpKey_recipient().equals(address)))
+                .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        return inputTransactions;
     }
 
     public double loadOutputTransaction(PublicKey address) {
