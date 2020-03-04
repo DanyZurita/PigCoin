@@ -45,10 +45,10 @@ public class BlockChain {
         return outputTransactions;
     }
     
-    public double[] loadWallet(PublicKey address) {
-        double input = loadInputTransaction(address);
-        double output = loadOutputTransaction(address);
-        double[] inputOutput = {input, output};
+    public List[] loadWallet(PublicKey address) {
+        List<Transaction> input = loadInputTransaction(address);
+        List<Transaction> output = loadOutputTransaction(address);
+        List[] inputOutput = {input, output};
         return inputOutput;
     }
     
