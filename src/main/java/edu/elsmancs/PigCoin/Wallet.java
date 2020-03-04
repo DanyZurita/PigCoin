@@ -58,6 +58,31 @@ public class Wallet {
         this.outputTransaction = outputTransaction;
     }
     
+    
+    public double getTotal_input() {
+        return total_input;
+    }
+
+    public void setTotal_input(double total_input) {
+        this.total_input = total_input;
+    }
+
+    public double getTotal_output() {
+        return total_output;
+    }
+
+    public void setTotal_output(double total_output) {
+        this.total_output = total_output;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+    
     public double loadInputTransactions(BlockChain bchain) {
         double input = 0d;
         bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_recipient().equals(getAddress()))).map((trans) -> trans.getPigcoins()).reduce(input, (accumulator, _item) -> accumulator + _item);
@@ -74,9 +99,9 @@ public class Wallet {
         List[] inputOutput = bchain.loadWallet(getAddress());
         setInputTransaction(inputOutput[0]);
         setInputTransaction(inputOutput[1]);
-        setTotalInput(loadInputTransactions(bchain));
-        setTotalOutput(loadOutputTransactions(bchain));
-        setBalance(getTotalInput - getTotalOutput);
+        setTotal_input(loadInputTransactions(bchain));
+        setTotal_output(loadOutputTransactions(bchain));
+        setBalance(getTotal_input() - getTotal_output());
     }
     
     public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
