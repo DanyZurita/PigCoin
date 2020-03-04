@@ -15,8 +15,8 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
     private double balance = 0d;
-    private final List<Transaction> inputTransaction = new ArrayList<>();
-    private final List<Transaction> outputTransaction = new ArrayList<>();
+    private List<Transaction> inputTransaction = new ArrayList<>();
+    private List<Transaction> outputTransaction = new ArrayList<>();
 
     public Wallet() {}
     
@@ -50,6 +50,14 @@ public class Wallet {
         return outputTransaction;
     }
     
+    public void setInputTransaction(List<Transaction> inputTransaction) {
+        this.inputTransaction = inputTransaction;
+    }
+
+    public void setOutputTransaction(List<Transaction> outputTransaction) {
+        this.outputTransaction = outputTransaction;
+    }
+    
     public void loadInputTransactions(BlockChain bchain) {
         bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_recipient().equals(getAddress()))).forEachOrdered((trans) -> {
             inputTransaction.add(trans);
@@ -63,7 +71,7 @@ public class Wallet {
     }
     
     public void loadCoins(BlockChain bchain) {
-        double[] inputOutput = bchain.loadWallet(getAddress());
+        List[] inputOutput = bchain.loadWallet(getAddress());
         total_input = inputOutput[0];
         total_output = inputOutput[1];
         balance = total_input - total_output;
