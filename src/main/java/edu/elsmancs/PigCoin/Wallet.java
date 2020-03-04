@@ -74,8 +74,9 @@ public class Wallet {
         List[] inputOutput = bchain.loadWallet(getAddress());
         setInputTransaction(inputOutput[0]);
         setInputTransaction(inputOutput[1]);
-        
-        balance = total_input - total_output;
+        setTotalInput(loadInputTransactions(bchain));
+        setTotalOutput(loadOutputTransactions(bchain));
+        setBalance(getTotalInput - getTotalOutput);
     }
     
     public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
