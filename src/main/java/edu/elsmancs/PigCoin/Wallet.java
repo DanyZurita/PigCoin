@@ -126,10 +126,16 @@ public class Wallet {
                     double CA_Amount = coinsAmount - coins;
                     consumedCoins.put(trans.getHash(), (trans.getPigcoins() - CA_Amount));
                     consumedCoins.put("CA_" + trans.getHash(), CA_Amount);
-                }
+                }     
             }
         }
-        return consumedCoins;
+        if (coinsAmount >= coins){
+            return consumedCoins;
+        }
+        else {
+            consumedCoins.clear();
+            return consumedCoins;
+        }
     }
     
     private boolean isTransactionValid(Transaction trans) {
