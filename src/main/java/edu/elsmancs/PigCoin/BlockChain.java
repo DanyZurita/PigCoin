@@ -54,7 +54,6 @@ public class BlockChain {
     
     public void processTransactions(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
         isSignatureValid(address, message, signedTransaction);
-        isConsumedCoinsValid(consumedCoins);
         createTransaction(address, pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
@@ -63,11 +62,19 @@ public class BlockChain {
     }
     
     public void createTransaction(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
-        Transaction trans = new Transaction();
-        trans.setpKey_sender(address);
-        trans.setpKey_recipient(pKey_recipient);
-        trans.setMessage(message);
-        BlockChain.add(trans);
+        for (String hash : consumedCoins.keySet()){        
+            Transaction trans = new Transaction(hash, getPrevHash(hash), address, pKey_recipient, consumedCoins.get(hash), message);
+            getBlockChain().add(trans);
+        }
+    }
+    
+    private String getPrevHash(String hash){
+        for (Transaction trans : getBlockChain()){
+            if(trans.getHash() == hash){
+                return trans.getPrev_hash();
+            }
+        }
+        return null;
     }
             
 }
