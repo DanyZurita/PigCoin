@@ -115,8 +115,30 @@ public class Wallet {
     
     public Map<String, Double> collectCoins(double coins) {
         Map<String, Double> consumedCoins = new HashMap<>();
-        
+        double coinsAmount = 0d; 
+        for (Transaction trans : getInputTransactions()) {
+            if (isTransactionValid(trans) && coins > coinsAmount) {
+                coinsAmount += trans.getPigcoins();
+                if (coinsAmount == coins) {
+                    consumedCoins.put(trans.getHash(), trans.getPigcoins());
+                }
+                else if (coinsAmount > coins) {
+                    double CA_Amount = coinsAmount - coins;
+                    consumedCoins.put(trans.getHash(), (trans.getPigcoins() - CA_Amount));
+                    consumedCoins.put("CA_" + trans.getHash(), CA_Amount);
+                }
+            }
+        }
         return consumedCoins;
+    }
+    
+    private boolean isTransactionValid(Transaction trans) {
+        for (Transaction output : getOutputTransactions()) {
+            if (output.getPrev_hash() == trans.getHash()) {
+                return false;
+            }
+        }
+        return true;
     }
     
     public byte[] signTransaction(String message) {
