@@ -85,7 +85,10 @@ public class Wallet {
     
     public double loadInputTransactions(BlockChain bchain) {
         double input = 0d;
-        bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_recipient().equals(getAddress()))).map((trans) -> trans.getPigcoins()).reduce(input, (accumulator, _item) -> accumulator + _item);
+        bchain.getBlockChain().stream()
+                              .filter((trans) -> (trans.getpKey_recipient().equals(getAddress())))
+                              .map((trans) -> trans.getPigcoins())
+                              .reduce(input, (accumulator, _item) -> accumulator + _item);
         return input;
     }
 
