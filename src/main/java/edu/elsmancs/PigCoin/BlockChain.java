@@ -62,10 +62,6 @@ public class BlockChain {
         return GenSig.verify(address, message, signedTransaction);
     }
     
-    public void isConsumedCoinsValid(Map<String, Double> consumedCoins) {
-        
-    }
-    
     public void createTransaction(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
         Transaction trans = new Transaction();
         trans.setpKey_sender(address);
