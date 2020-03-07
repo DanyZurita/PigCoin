@@ -139,12 +139,7 @@ public class Wallet {
     }
     
     private boolean isTransactionValid(Transaction trans) {
-        for (Transaction output : getOutputTransactions()) {
-            if (output.getPrev_hash() == trans.getHash()) {
-                return false;
-            }
-        }
-        return true;
+        return getOutputTransactions().stream().noneMatch((output) -> (output.getPrev_hash() == null ? trans.getHash() == null : output.getPrev_hash().equals(trans.getHash())));
     }
     
     public byte[] signTransaction(String message) {
