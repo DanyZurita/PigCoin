@@ -94,7 +94,10 @@ public class Wallet {
 
     public double loadOutputTransactions(BlockChain bchain) {
         double output = 0d;
-        output = bchain.getBlockChain().stream().filter((trans) -> (trans.getpKey_sender().equals(getAddress()))).map((trans) -> trans.getPigcoins()).reduce(output, (accumulator, _item) -> accumulator + _item);
+        output = bchain.getBlockChain().stream()
+                                       .filter((trans) -> (trans.getpKey_sender().equals(getAddress())))
+                                       .map((trans) -> trans.getPigcoins())
+                                       .reduce(output, (accumulator, _item) -> accumulator + _item);
         return output;
     }
     
