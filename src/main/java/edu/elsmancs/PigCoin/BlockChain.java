@@ -62,19 +62,37 @@ public class BlockChain {
     }
     
     public void createTransaction(PublicKey address, PublicKey pKey_recipient, Map<String, Double> consumedCoins, String message, byte[] signedTransaction) {
-        for (String hash : consumedCoins.keySet()){        
-            Transaction trans = new Transaction(hash, getPrevHash(hash), address, pKey_recipient, consumedCoins.get(hash), message);
-            getBlockChain().add(trans);
+        for (String hash : consumedCoins.keySet()){
+            boolean CA = hash.startsWith("CA_");
+            if (CA) {
+                String actualHash = hash.substring(3, hash.length());
+                Transaction trans = new Transaction(getNewHash(CA, hash), actualHash, address, pKey_recipient, consumedCoins.get(hash), message);
+                getBlockChain().add(trans);
+            }
+            else {
+                Transaction trans = new Transaction(getNewHash(CA, hash), hash, address, pKey_recipient, consumedCoins.get(hash), message);
+                getBlockChain().add(trans);
+            }
         }
     }
     
-    private String getPrevHash(String hash){
+    private String getNewHash(boolean changeAddress, String hash){
+        int maxNumBlockChain = 0;
         for (Transaction trans : getBlockChain()){
-            if(trans.getHash() == hash){
-                return trans.getPrev_hash();
+            
+            int transferNum = Character.getNumericValue(trans.getHash().charAt(trans.getHash().length() -1));
+            if(maxNumBlockChain < transferNum){
+                maxNumBlockChain = transferNum; 
             }
         }
-        return null;
+        if (changeAddress) {
+            return hash;
+        }
+        else {
+            maxNumBlockChain += 1;
+            String stringMaxNum = String.valueOf(maxNumBlockChain);
+            return "hash_".concat(stringMaxNum);
+        }
     }
             
 }
