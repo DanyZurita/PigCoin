@@ -65,8 +65,9 @@ public class BlockChain {
         for (String hash : consumedCoins.keySet()){
             boolean CA = hash.startsWith("CA_");
             if (CA) {
+                PublicKey actualRecipient = address;
                 String actualHash = hash.substring(3, hash.length());
-                Transaction trans = new Transaction(getNewHash(CA, hash), actualHash, address, pKey_recipient, consumedCoins.get(hash), message);
+                Transaction trans = new Transaction(getNewHash(CA, hash), actualHash, address, actualRecipient, consumedCoins.get(hash), message);
                 getBlockChain().add(trans);
             }
             else {
