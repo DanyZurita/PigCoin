@@ -83,7 +83,7 @@ public class Wallet {
         this.balance = balance;
     }
     
-    public double loadInputTransactions(BlockChain bchain) {
+    public double loadCoinsInputTransactions(BlockChain bchain) {
         double input = 0d;
         input = bchain.getBlockChain().stream()
                               .filter((trans) -> (trans.getpKey_recipient().equals(getAddress())))
@@ -92,7 +92,7 @@ public class Wallet {
         return input;
     }
 
-    public double loadOutputTransactions(BlockChain bchain) {
+    public double loadCoinsOutputTransactions(BlockChain bchain) {
         double output = 0d;
         output = bchain.getBlockChain().stream()
                                        .filter((trans) -> (trans.getpKey_sender().equals(getAddress())))
@@ -101,12 +101,18 @@ public class Wallet {
         return output;
     }
     
+    public void loadInputTransactions(BlockChain bchain) {
+        setInputTransaction(bchain.loadInputTransaction(getAddress()));
+    }
+    
+    public void loadOutputTransactions(BlockChain bchain) {
+        setOutputTransaction(bchain.loadOutputTransaction(getAddress()));
+    }
+    
     public void loadCoins(BlockChain bchain) {
         List[] inputOutput = bchain.loadWallet(getAddress());
-        setInputTransaction(inputOutput[0]);
-        setInputTransaction(inputOutput[1]);
-        setTotal_input(loadInputTransactions(bchain));
-        setTotal_output(loadOutputTransactions(bchain));
+        setTotal_input(loadCoinsInputTransactions(bchain));
+        setTotal_output(loadCoinsOutputTransactions(bchain));
         setBalance(getTotal_input() - getTotal_output());
     }
     
@@ -122,10 +128,10 @@ public class Wallet {
         for (Transaction trans : getInputTransactions()) {
             if (isTransactionValid(trans) && coins > coinsAmount) {
                 coinsAmount += trans.getPigcoins();
-                if (coinsAmount == coins) {
+                if (coinsAmount <= coins) {
                     consumedCoins.put(trans.getHash(), trans.getPigcoins());
                 }
-                else if (coinsAmount > coins) {
+                else if (coinsAmount >= coins) {
                     double CA_Amount = coinsAmount - coins;
                     consumedCoins.put(trans.getHash(), (trans.getPigcoins() - CA_Amount));
                     consumedCoins.put("CA_" + trans.getHash(), CA_Amount);
@@ -136,7 +142,6 @@ public class Wallet {
             return consumedCoins;
         }
         else {
-            consumedCoins.clear();
             return consumedCoins;
         }
     }
