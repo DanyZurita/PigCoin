@@ -145,6 +145,7 @@ public class Wallet {
             return consumedCoins;
         }
         else {
+            consumedCoins.clear();
             return consumedCoins;
         }
     }
