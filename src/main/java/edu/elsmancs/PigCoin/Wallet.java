@@ -79,8 +79,8 @@ public class Wallet {
         return balance;
     }
 
-    private void setBalance(double balance) {
-        this.balance = balance;
+    private void updateBalance() {
+        this.balance = this.total_input - this.total_output;
     }
     
     double loadCoinsInputTransactions(BlockChain bchain) {
@@ -113,7 +113,7 @@ public class Wallet {
         List[] inputOutput = bchain.loadWallet(getAddress());
         setTotal_input(loadCoinsInputTransactions(bchain));
         setTotal_output(loadCoinsOutputTransactions(bchain));
-        setBalance(getTotal_input() - getTotal_output());
+        updateBalance();
     }
     
     public void sendCoins(PublicKey pKey_recipient, double coins, String message, BlockChain bChain)  {
