@@ -50,11 +50,11 @@ public class Wallet {
         return outputTransaction;
     }
     
-    public void setInputTransaction(List<Transaction> inputTransaction) {
+    private void setInputTransaction(List<Transaction> inputTransaction) {
         this.inputTransaction = inputTransaction;
     }
 
-    public void setOutputTransaction(List<Transaction> outputTransaction) {
+    private void setOutputTransaction(List<Transaction> outputTransaction) {
         this.outputTransaction = outputTransaction;
     }
     
@@ -63,7 +63,7 @@ public class Wallet {
         return total_input;
     }
 
-    public void setTotal_input(double total_input) {
+    private void setTotal_input(double total_input) {
         this.total_input = total_input;
     }
 
@@ -71,7 +71,7 @@ public class Wallet {
         return total_output;
     }
 
-    public void setTotal_output(double total_output) {
+    private void setTotal_output(double total_output) {
         this.total_output = total_output;
     }
 
@@ -79,11 +79,11 @@ public class Wallet {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    private void setBalance(double balance) {
         this.balance = balance;
     }
     
-    public double loadCoinsInputTransactions(BlockChain bchain) {
+    double loadCoinsInputTransactions(BlockChain bchain) {
         double input = 0d;
         input = bchain.getBlockChain().stream()
                               .filter((trans) -> (trans.getpKey_recipient().equals(getAddress())))
@@ -92,7 +92,7 @@ public class Wallet {
         return input;
     }
 
-    public double loadCoinsOutputTransactions(BlockChain bchain) {
+    double loadCoinsOutputTransactions(BlockChain bchain) {
         double output = 0d;
         output = bchain.getBlockChain().stream()
                                        .filter((trans) -> (trans.getpKey_sender().equals(getAddress())))
@@ -101,11 +101,11 @@ public class Wallet {
         return output;
     }
     
-    public void loadInputTransactions(BlockChain bchain) {
+    void loadInputTransactions(BlockChain bchain) {
         setInputTransaction(bchain.loadInputTransaction(getAddress()));
     }
     
-    public void loadOutputTransactions(BlockChain bchain) {
+    void loadOutputTransactions(BlockChain bchain) {
         setOutputTransaction(bchain.loadOutputTransaction(getAddress()));
     }
     
@@ -122,7 +122,7 @@ public class Wallet {
         bChain.processTransactions(getAddress(), pKey_recipient, consumedCoins, message, signedTransaction);
     }
     
-    public Map<String, Double> collectCoins(double coins) {
+    Map<String, Double> collectCoins(double coins) {
         Map<String, Double> consumedCoins = new HashMap<>();
         double coinsAmount = 0d; 
         for (Transaction trans : getInputTransactions()) {
@@ -131,11 +131,14 @@ public class Wallet {
                 if (coinsAmount <= coins) {
                     consumedCoins.put(trans.getHash(), trans.getPigcoins());
                 }
-                else if (coinsAmount >= coins) {
+                else if (coinsAmount > coins) {
                     double CA_Amount = coinsAmount - coins;
                     consumedCoins.put(trans.getHash(), (trans.getPigcoins() - CA_Amount));
                     consumedCoins.put("CA_" + trans.getHash(), CA_Amount);
-                }     
+                }  
+                else {
+                    consumedCoins.put(trans.getHash(), trans.getPigcoins());
+                }
             }
         }
         if (coinsAmount >= coins){
@@ -150,7 +153,7 @@ public class Wallet {
         return getOutputTransactions().stream().noneMatch((output) -> (output.getPrev_hash() == null ? trans.getHash() == null : output.getPrev_hash().equals(trans.getHash())));
     }
     
-    public byte[] signTransaction(String message) {
+    byte[] signTransaction(String message) {
         return GenSig.sign(getSKey(), message);
     }     
             
